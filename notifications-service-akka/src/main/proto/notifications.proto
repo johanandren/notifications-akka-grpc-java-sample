@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "notifications.grpc";
+
+service NotificationService {
+    rpc Notify (NotifyRequest) returns (NotifyResult) {}
+    rpc GetNotifications (GetNotificationsRequest) returns (stream Notification) {}
+}
+
+message NotifyRequest {
+    uint64 recipientId = 1;
+    uint64 senderId = 2;
+    string message = 3;
+}
+
+message NotifyResult {
+}
+
+message Notification {
+    uint64 when = 1;
+    uint64 senderId = 2;
+    string message = 3;
+}
+
+message GetNotificationsRequest {
+    uint64 recipientId = 1;
+}
