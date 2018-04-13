@@ -15,9 +15,6 @@ import com.typesafe.config.ConfigFactory;
 import io.grpc.internal.testing.TestUtils;
 import notifications.grpc.NotificationService;
 import notifications.grpc.NotificationServiceHandlerFactory;
-import scala.io.StdIn;
-import scala.io.StdIn$;
-
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import java.io.FileInputStream;
@@ -40,10 +37,10 @@ public class ServerMain {
                 .withFallback(ConfigFactory.defaultApplication());
 
 
-        final ActorSystem system = ActorSystem.create();
+        final ActorSystem system = ActorSystem.create("grpc-service", conf);
         final Materializer materializer = ActorMaterializer.create(system);
 
-        NotificationService notificationService = new NotificationServiceImpl(system);
+        final NotificationService notificationService = new NotificationServiceImpl(system);
 
         Http.get(system).bindAndHandleAsync(
                 NotificationServiceHandlerFactory.create(notificationService, materializer),
@@ -58,6 +55,7 @@ public class ServerMain {
 
     }
 
+    // dummy certificate setup since HTTP2 requires encryption right now
     private static HttpsConnectionContext serverHttpContext() throws Exception {
         String keyEncoded = new String(Files.readAllBytes(Paths.get(TestUtils.loadCert("server1.key").getAbsolutePath())), "UTF-8")
                 .replace("-----BEGIN PRIVATE KEY-----\n", "")

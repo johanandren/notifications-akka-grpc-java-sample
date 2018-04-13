@@ -1,0 +1,23 @@
+<html>
+<head>
+  <script language="javascript">
+    function print(text) {
+      var notificationsBox = document.getElementById("notifications")
+      var li = document.createElement("li")
+      li.appendChild(document.createTextNode(text))
+      notificationsBox.appendChild(li)
+    }
+    var connection = new WebSocket(window.location.href.replace("http", "ws"))
+    connection.onopen = function () { print("WebSocket connected to server") }
+    connection.onerror = function (error) { print('WebSocket Error: ' + error) }
+    connection.onclose = function (error) { print("WebSocket closed") }
+    connection.onmessage = function (e) {
+      print("Notification: " + e.data)
+    }
+  </script>
+</head>
+<body>
+<h1>Notifications</h1>
+  <ul id="notifications"></ul>
+</body>
+</html>

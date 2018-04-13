@@ -38,10 +38,10 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Source<Notification, NotUsed> getNotifications(GetNotificationsRequest in) {
+    public Source<StreamedNotification, NotUsed> getNotifications(GetNotificationsRequest in) {
         return Source.<NotificationTarget.Notification>actorRef(10, OverflowStrategy.fail())
                 .map(notification ->
-                    Notification.newBuilder()
+                    StreamedNotification.newBuilder()
                         .setSenderId(notification.from)
                         .setWhen(notification.timestamp.getEpochSecond())
                         .setMessage(notification.message)

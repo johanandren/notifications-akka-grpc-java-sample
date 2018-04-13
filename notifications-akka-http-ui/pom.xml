@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>notifications-service-akka</artifactId>
+    <artifactId>notifications-akka-http-ui</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
@@ -15,10 +15,9 @@
             <version>${akka.grpc.project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mortbay.jetty.alpn</groupId>
-            <artifactId>jetty-alpn-agent</artifactId>
-            <version>2.0.7</version>
-            <scope>runtime</scope>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-http_2.12</artifactId>
+            <version>${akka.http.version}</version>
         </dependency>
         <!-- for loading of cert, issue #89 -->
         <dependency>
@@ -43,29 +42,11 @@
                 </executions>
             </plugin>
             <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.5.1</version>
-                <executions>
-                    <execution>
-                        <id>getClasspathFilenames</id>
-                        <goals>
-                            <goal>properties</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <configuration>
-                    <executable>java</executable>
-                    <arguments>
-                        <argument>-javaagent:${org.mortbay.jetty.alpn:jetty-alpn-agent:jar}</argument>
-                        <argument>-classpath</argument>
-                        <classpath />
-                        <argument>notifications.ServerMain</argument>
-                    </arguments>
+                    <mainClass>Main</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -73,6 +54,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <akka.http.version>10.1.1</akka.http.version>
         <akka.grpc.project.version>602ce219+20180412-1617</akka.grpc.project.version>
         <grpc.version>1.11.0</grpc.version>
         <project.encoding>UTF-8</project.encoding>
