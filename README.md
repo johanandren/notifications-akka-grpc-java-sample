@@ -1,6 +1,6 @@
 ## Description
 
-A small client-server example for AKKA gRPC allowing posting of "notifications" to different recipient id:s through a minimal web UI and then over gRPC to an Akka server 
+A small client-server example for Akka gRPC allowing posting of "notifications" to different recipient id:s through a minimal web UI and then over gRPC to an Akka server 
 and showcasing streaming notifications for such receiever ids, again over gRPC and then websocket to a browser.
 
 If there is no subscribers active for a given id the notifications are buffered until there is a subscriber
